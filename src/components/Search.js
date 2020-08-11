@@ -9,13 +9,14 @@ const Search = () => {
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedTerm(term);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timerId);
     };
   }, [term]);
 
+  //this watches debouncedTerm piece of state which will only change when the above useEffect runs. Which is set on a setTimeout function that waits a set amount of time after a keypress until it will set the debouncedTerm.
   useEffect(() => {
     const search = async () => {
       const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
@@ -33,20 +34,6 @@ const Search = () => {
       search();
     }
   }, [debouncedTerm]);
-
-  // useEffect(() => {
-  //   if (term && !results.length) {
-  //     search();
-  //   }
-  //   const timeoutId = setTimeout(() => {
-  //     if (term) {
-  //       search();
-  //     }
-  //   }, 500);
-  //   return () => {
-  //     clearTimeout(timeoutId);
-  //   };
-  // }, [term]);
 
   const renderedResults = results.map((result) => {
     return (
